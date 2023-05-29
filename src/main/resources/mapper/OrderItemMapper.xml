@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.recommend.railway.mapper.OrderItemMapper">
+
+    <resultMap type="com.example.recommend.railway.entity.OrderItem" id="OrderItemMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="foodId" column="food_id" jdbcType="INTEGER"/>
+        <result property="singlePrice" column="single_price" jdbcType="VARCHAR"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into food_recommend.order_item(food_id, single_price, number)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.foodId}, #{entity.singlePrice}, #{entity.number})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into food_recommend.order_item(food_id, single_price, number)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.foodId}, #{entity.singlePrice}, #{entity.number})
+        </foreach>
+        on duplicate key update
+         food_id = values(food_id) , single_price = values(single_price) , number = values(number)     </insert>
+
+</mapper>
+

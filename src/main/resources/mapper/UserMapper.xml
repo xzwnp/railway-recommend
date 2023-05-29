@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.recommend.railway.mapper.UserMapper">
+
+    <resultMap type="com.example.recommend.railway.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="spicyPreference" column="spicy_preference" jdbcType="INTEGER"/>
+        <result property="soupPerference" column="soup_perference" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into food_recommend.user(phone, spicy_preference, soup_perference)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.phone}, #{entity.spicyPreference}, #{entity.soupPerference})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into food_recommend.user(phone, spicy_preference, soup_perference)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.phone}, #{entity.spicyPreference}, #{entity.soupPerference})
+        </foreach>
+        on duplicate key update
+         phone = values(phone) , spicy_preference = values(spicy_preference) , soup_perference = values(soup_perference)     </insert>
+
+</mapper>
+
