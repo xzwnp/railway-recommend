@@ -40,7 +40,7 @@ public class FoodController extends ApiController {
     @Operation(summary = "分页查询所有数据")
         public R<Page<Food>> selectAll(@RequestParam(defaultValue = "1") @Parameter(description = "当前页") Long current,
                            @RequestParam(defaultValue = "10") @Parameter(description = "每页记录数") Long size,
-                           @Parameter(description = "查询条件,直接把属性名作为请求参数") Food food) {
+                           @Parameter(description = "查询条件,可选") Food food) {
         Page<Food> page = new Page<>(current, size);                   
         return success(this.foodService.page(page, new QueryWrapper<>(food)));
     }
@@ -49,8 +49,8 @@ public class FoodController extends ApiController {
      */
     @GetMapping("list")
     @Operation(summary = "分页查询所有数据")
-        public R selectAll() {
-        return success(this.foodService.list());
+        public R selectAll(@Parameter(description = "查询条件,可选") Food food) {
+        return success(this.foodService.list(new QueryWrapper<>(food)));
     }
     /**
      * 通过主键查询单条数据

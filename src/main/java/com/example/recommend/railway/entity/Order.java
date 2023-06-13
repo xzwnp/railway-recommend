@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "订单信息表")
+@TableName("orders")
 public class Order extends Model<Order> {
     @Schema(description = "${column.comment}")
     private Integer id;
@@ -33,6 +35,8 @@ public class Order extends Model<Order> {
     private LocalDateTime createTime;
     @Schema(description = "订单状态(0:未支付,1:已支付,2:已送达,3:已结束)")
     private Integer status;
+    @Schema(description = "车次编号")
+    private Integer trainId;
 
     @TableField(exist = false)
     @Schema(description = "订单项")

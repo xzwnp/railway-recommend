@@ -1,13 +1,16 @@
 package com.example.recommend.railway.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.recommend.railway.entity.Order;
+import com.example.recommend.railway.entity.OrderItem;
 import com.example.recommend.railway.entity.request.OrderCreateRequest;
 import com.example.recommend.railway.security.SecurityUserUtil;
+import com.example.recommend.railway.service.OrderItemService;
 import com.example.recommend.railway.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,9 @@ public class OrderController extends ApiController {
     @Autowired
     private OrderService orderService;
 
+	@Autowired
+	private OrderItemService orderItemService;
+
     /**
      * 分页查询所有数据
      *
@@ -53,8 +59,10 @@ public class OrderController extends ApiController {
      */
     @GetMapping("list")
     @Operation(summary = "分页查询所有数据")
-        public R selectAll() {
-        return success(this.orderService.list());
+        public R selectAll(@Parameter(description = "查询条件,直接把属性名作为请求参数") Order orderQuery) {
+		List<Order> orders = this.orderService.list(new QueryWrapper<>(orderQuery));
+		orders.forEach(order -> order.setOrderItems(orderItemService.list(new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderId,order.getId()))));
+		return success(orders);
     }
 
     @PostMapping("create")
