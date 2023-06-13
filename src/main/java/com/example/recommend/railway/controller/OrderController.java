@@ -48,6 +48,14 @@ public class OrderController extends ApiController {
         Page<Order> page = new Page<>(current, size);
         return success(this.orderService.page(page, new QueryWrapper<>(order)));
     }
+	/**
+     * 查询所有数据
+     */
+    @GetMapping("list")
+    @Operation(summary = "分页查询所有数据")
+        public R selectAll() {
+        return success(this.orderService.list());
+    }
 
     @PostMapping("create")
     @Operation(summary = "创建订单")

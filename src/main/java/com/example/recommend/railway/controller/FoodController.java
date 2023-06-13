@@ -44,7 +44,14 @@ public class FoodController extends ApiController {
         Page<Food> page = new Page<>(current, size);                   
         return success(this.foodService.page(page, new QueryWrapper<>(food)));
     }
-
+	/**
+     * 查询所有数据
+     */
+    @GetMapping("list")
+    @Operation(summary = "分页查询所有数据")
+        public R selectAll() {
+        return success(this.foodService.list());
+    }
     /**
      * 通过主键查询单条数据
      *

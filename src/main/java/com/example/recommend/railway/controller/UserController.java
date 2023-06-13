@@ -52,7 +52,14 @@ public class UserController extends ApiController {
     public R<String> register(@RequestBody @Validated UserRegisterRequest request) {
         return success(userService.register(request));
     }
-
+	/**
+     * 查询所有数据
+     */
+    @GetMapping("list")
+    @Operation(summary = "分页查询所有数据")
+        public R selectAll() {
+        return success(this.userService.list());
+    }
     /**
      * 分页查询所有数据
      *

@@ -47,6 +47,15 @@ public class StationController extends ApiController {
         return success(this.stationService.page(page, new QueryWrapper<>(station)));
     }
 
+	/**
+     * 查询所有数据
+     */
+    @GetMapping("list")
+    @Operation(summary = "分页查询所有数据")
+        public R selectAll() {
+        return success(this.stationService.list());
+    }
+
     /**
      * 通过主键查询单条数据
      *

@@ -47,7 +47,14 @@ public class TrainNumberController extends ApiController {
         Page<TrainNumber> page = new Page<>(current, size);
         return success(this.trainNumberService.page(page, new QueryWrapper<>(trainNumber)));
     }
-
+	/**
+     * 查询所有数据
+     */
+    @GetMapping("list")
+    @Operation(summary = "分页查询所有数据")
+        public R selectAll() {
+        return success(this.trainNumberService.list());
+    }
     /**
      * 通过主键查询单条数据
      *
