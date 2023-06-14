@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class Order extends Model<Order> {
     @Schema(description = "${column.comment}")
     private Integer id;
-    @Schema(description = "用户id")
+    @Schema(description = "用户id,不需要传，但是要携带token")
     private Integer userId;
     @Schema(description = "总价格")
     private BigDecimal totalPrice;

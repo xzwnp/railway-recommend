@@ -24,6 +24,8 @@ public class Food extends Model<Food> {
     private Integer id;
     @Schema(description = "食物名称")
     private String name;
+    @Schema(description = "车次id")
+    private Integer train_number_id;
     @Schema(description = "食物描述")
     private String description;
     @Schema(description = "价格")

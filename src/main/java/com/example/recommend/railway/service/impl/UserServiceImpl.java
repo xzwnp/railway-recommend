@@ -50,7 +50,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new ApiException("手机号已存在!");
         }
         user = new User();
-        BeanUtils.copyProperties(request,user);
+        BeanUtils.copyProperties(request, user);
+        String encodedPassword = DigestUtils.md5DigestAsHex((request.getPassword() + salt).getBytes());
+        user.setPassword(encodedPassword);
         baseMapper.insert(user);
 
         String token = createToken(user);

@@ -37,8 +37,8 @@ public class OrderController extends ApiController {
     @Autowired
     private OrderService orderService;
 
-	@Autowired
-	private OrderItemService orderItemService;
+    @Autowired
+    private OrderItemService orderItemService;
 
     /**
      * 分页查询所有数据
@@ -54,24 +54,48 @@ public class OrderController extends ApiController {
         Page<Order> page = new Page<>(current, size);
         return success(this.orderService.page(page, new QueryWrapper<>(order)));
     }
-	/**
+
+    /**
      * 查询所有数据
      */
     @GetMapping("list")
     @Operation(summary = "分页查询所有数据")
-        public R selectAll(@Parameter(description = "查询条件,直接把属性名作为请求参数") Order orderQuery) {
-		List<Order> orders = this.orderService.list(new QueryWrapper<>(orderQuery));
-		orders.forEach(order -> order.setOrderItems(orderItemService.list(new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderId,order.getId()))));
-		return success(orders);
+    public R selectAll(@Parameter(description = "查询条件,直接把属性名作为请求参数") Order orderQuery) {
+        orderQuery.setUserId(SecurityUserUtil.getUserId());
+        List<Order> orders = this.orderService.list(new QueryWrapper<>(orderQuery));
+        orders.forEach(order -> order.setOrderItems(orderItemService.list(new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderId, order.getId()))));
+        return success(orders);
     }
 
     @PostMapping("create")
     @Operation(summary = "创建订单")
     public R<?> createOrder(@RequestBody Order order) {
+        //设置用户id
         order.setUserId(SecurityUserUtil.getUserId());
         order.setId(null);
+        //创建订单
         orderService.createOrder(order);
+        //创建订单项
+        order.getOrderItems().forEach(item -> {
+            item.setId(null);
+            item.setOrderId(order.getId());
+        });
+        orderItemService.saveBatch(order.getOrderItems());
         return R.ok(null);
+    }
+
+
+    /**
+     * 修改数据
+     *
+     * @param orderQuery 实体对象
+     * @return 修改结果
+     */
+    @PutMapping
+    @Operation(summary = "修改数据")
+    public R update(@RequestBody Order orderQuery) {
+        orderQuery.setUserId(SecurityUserUtil.getUserId());
+        return success(this.orderService.updateById(orderQuery));
     }
 
 
@@ -87,29 +111,6 @@ public class OrderController extends ApiController {
         return success(this.orderService.getById(id));
     }
 
-    /**
-     * 新增数据
-     *
-     * @param order 实体对象
-     * @return 新增结果
-     */
-    @PostMapping
-    @Operation(summary = "新增数据")
-    public R insert(@RequestBody Order order) {
-        return success(this.orderService.save(order));
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param order 实体对象
-     * @return 修改结果
-     */
-    @PutMapping
-    @Operation(summary = "修改数据")
-    public R update(@RequestBody Order order) {
-        return success(this.orderService.updateById(order));
-    }
 
     /**
      * 删除数据
