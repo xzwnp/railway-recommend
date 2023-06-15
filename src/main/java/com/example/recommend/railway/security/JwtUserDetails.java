@@ -4,7 +4,9 @@ import com.example.recommend.railway.jwt.JwtEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +25,12 @@ public class JwtUserDetails implements UserDetails {
 
     public JwtUserDetails(JwtEntity jwtEntity) {
         this.user = jwtEntity;
-        //角色需要ROLE_开头,权限不需要
-        this.permissionList = jwtEntity.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(jwtEntity.getRoles())) {
+            //角色需要ROLE_开头,权限不需要
+            this.permissionList = jwtEntity.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        } else {
+            this.permissionList = new ArrayList<>();
+        }
     }
 
     /**
