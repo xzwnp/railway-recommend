@@ -27,7 +27,7 @@ public class TrainNumber extends Model<TrainNumber> {
     @TableId(type = IdType.AUTO)
     private Integer id;
     @Schema(description = "车次编号")
-    private String trainNumber;
+    private String trainNumberId;
     @Schema(description = "出发城市")
     private String startStation;
     @Schema(description = "到达城市")
