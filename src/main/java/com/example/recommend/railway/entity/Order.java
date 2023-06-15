@@ -3,7 +3,9 @@ package com.example.recommend.railway.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
@@ -26,6 +28,7 @@ import lombok.EqualsAndHashCode;
 @TableName("orders")
 public class Order extends Model<Order> {
     @Schema(description = "${column.comment}")
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @Schema(description = "用户id,不需要传，但是要携带token")
     private Integer userId;

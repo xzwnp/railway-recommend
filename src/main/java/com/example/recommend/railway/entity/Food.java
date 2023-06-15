@@ -2,6 +2,8 @@ package com.example.recommend.railway.entity;
 
 import java.math.BigDecimal;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
@@ -21,6 +23,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "餐食信息表")
 public class Food extends Model<Food> {
     @Schema(description = "${column.comment}")
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @Schema(description = "食物名称")
     private String name;

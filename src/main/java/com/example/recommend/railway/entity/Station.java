@@ -1,5 +1,7 @@
 package com.example.recommend.railway.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,6 +18,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description="站点信息表")
 public class Station extends Model<Station> {
     @Schema(description="${column.comment}")
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @Schema(description="站点名称")
     private Integer name;

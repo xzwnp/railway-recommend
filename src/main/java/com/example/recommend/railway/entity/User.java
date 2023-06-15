@@ -1,10 +1,16 @@
 package com.example.recommend.railway.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 /**
  * (User)表实体类
  *
@@ -13,20 +19,21 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description="")
+@Schema(description = "")
 public class User extends Model<User> {
-    @Schema(description="${column.comment}")
+    @Schema(description = "${column.comment}")
+    @TableId(type = IdType.AUTO)
     private Integer id;
-    @Schema(description="手机号")
+    @Schema(description = "手机号")
     private String phone;
     @Schema(description = "昵称")
     private String nickname;
 
     @Schema(description = "密码")
     private String password;
-    @Schema(description="辣度倾向(0-5)")
+    @Schema(description = "辣度倾向(0-5)")
     private Integer spicyPreference;
-    @Schema(description="汤食倾向")
+    @Schema(description = "汤食倾向")
     private Integer soupPreference;
 
     /**
@@ -38,5 +45,5 @@ public class User extends Model<User> {
     public Serializable pkVal() {
         return this.id;
     }
-    }
+}
 

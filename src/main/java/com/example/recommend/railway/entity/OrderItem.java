@@ -1,5 +1,7 @@
 package com.example.recommend.railway.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
@@ -19,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "订单项")
 public class OrderItem extends Model<OrderItem> {
     @Schema(description = "${column.comment}")
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @Schema(description = "订单编号")
     private Integer orderId;
